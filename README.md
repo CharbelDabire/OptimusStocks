@@ -1,4 +1,4 @@
-# Stockify
+# OptimusStocks
 OptimusStock - Stock Portfolio Management Application
 Overview
 OptimusStock is a stock portfolio management application designed to help users view and manage their stock portfolios, gain insights and analytics on performance, and receive personalized investment recommendations. The application leverages machine learning to provide stock forecasting and buy/sell predictions, and includes an educational platform to teach users about stock investing fundamentals.
