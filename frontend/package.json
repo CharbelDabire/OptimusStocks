@@ -1,0 +1,41 @@
+{
+  "name": "optimus-stocks",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@types/axios": "^0.14.0",
+    "axios": "^1.7.2",
+    "babel": "^6.23.0",
+    "next": "^14.2.3",
+    "react": "^18",
+    "react-dom": "^18"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.3",
+    "@babel/preset-env": "^7.12.1",
+    "@babel/preset-react": "^7.12.1",
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "@typescript-eslint/eslint-plugin": "^7.12.0",
+    "@typescript-eslint/parser": "^7.12.0",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^8.57.0",
+    "eslint-config-next": "^14.2.3",
+    "eslint-plugin-react": "^7.34.2",
+    "postcss": "^8",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5.4.5"
+  },
+  "description": "OptimusStock is a comprehensive stock portfolio management application designed to assist users in managing and optimizing their stock investments. The application provides a wide range of features including portfolio tracking, insights and analytics, educational content, and a chatbot for personalized assistance. Users can view and manage their stock portfolios, analyze individual stocks, receive personalized recommendations, and stay informed with market news and sentiment data.",
+  "main": "index.js",
+  "repository": "https://github.com/CharbelDabire/OptimusStocks",
+  "author": "Charbel Dabire",
+  "license": "MIT"
+}
