@@ -2,11 +2,11 @@ import axios from "axios";
 
 const API_URL = 'http://localhost:8000/api';
 
-interface User {
+type User = {
     id: number;
     username: string;
     // Add other user fields here if necessary
-}
+};
 
 export const fetchUsers = async (): Promise<User[]> => {
     try {

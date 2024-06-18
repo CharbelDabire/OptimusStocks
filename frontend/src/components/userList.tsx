@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { fetchUsers } from "../api/user";
+import { fetchUsers } from "../../app/api/user";
 
-interface User {
+
+
+interface UserInterface {
   id: number;
   username: string;
 }
+
 const UserList: React.FC = () => {
-  const [users, setUsers] = useState<User[]>([]);
+  const [users, setUsers] = useState<UserInterface[]>([]);
 
   useEffect(() => {
     const getUsers = async () => {
