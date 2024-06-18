@@ -1,3 +1,4 @@
+import urllib
 import requests
 from django.conf import settings
 from django.core.management.base import BaseCommand
@@ -123,8 +124,10 @@ class Command(BaseCommand):
             if slow_limit:
                 params['slowlimit'] = slow_limit
         if function in {'MACDEXT', 'APO', 'PPO', 'ADOSC'}:
-            params['fastperiod'] = fast_period
-            params['slowperiod'] = slow_period
+            if fast_period:
+                params['fastperiod'] = fast_period
+            if slow_period:
+                params['slowperiod'] = slow_period
         if function == 'MACDEXT':
             if signal_period:
                 params['signalperiod'] = signal_period
@@ -173,7 +176,7 @@ class Command(BaseCommand):
                 params['maximum'] = maximum
 
 
-        url = url_base + '&'.join([f'{k}={v}' for k, v in params.items()])
+        url = url_base + urllib.parse.urlencode(params)
         url += f'&apikey={api_key}'
 
         try:

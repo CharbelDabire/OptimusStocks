@@ -8,8 +8,8 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         
-        parser.add_argument('symbols', type=str, help='A comma seperated list of symbols')
-        parser.add_argument('range', type=str, help='Date range for the series (e.g., full, {N}day, {N}week, 2023-07-01, etc )')
+        parser.add_argument('symbols', type=str, help='A comma separated list of symbols')
+        parser.add_argument('range', type=str, help='Date range for the series (e.g., full, {N}day, {N}week, 2023-07-01, YYYY-MM, etc )')
         parser.add_argument('interval', type=str, choices=['1min', '5min', '15min', '30min', '60min', 'DAILY', 'WEEKLY', 'MONTHLY'], help='Time interval between data points')
         parser.add_argument('calculations', type=str, help='A comma separated list of the analytics metrics to calculate')
         parser.add_argument('--ohlc', type=str, choices=['open', 'high', 'low', 'close'], default='close', help='The field (open, high, low, or close) on which the calculations will be performed')
@@ -29,8 +29,8 @@ class Command(BaseCommand):
 
         calculations_list = calculations.split(',')
 
-        valid_basic_calculations = {'MIN', 'MAX', 'MEAN', 'MEDIAN', 'CUMULATIVE_RETURN', 'VARIANCE', 'MAX_DRAWDOWN', 'HISTOGRAM', 'AUTOCORRELATION', 'COVARIANCE', 'CORRELATION'}
-        valid_complex_calculations = {'VARIANCE(annualized=True)', 'STDDEV', 'STDDEV(annualized=True)',  'HISTOGRAM(bins={N})',  'COVARIANCE(annualized=True)', 'AUTOCORRELATION(lag={N})', 'CORRELATION(method=KENDALL)', 'CORRELATION(method=SPEARMAN)'}
+        valid_basic_calculations = {'MIN', 'MAX', 'MEAN', 'MEDIAN', 'STDDEV', 'CUMULATIVE_RETURN', 'VARIANCE', 'MAX_DRAWDOWN', 'HISTOGRAM', 'AUTOCORRELATION', 'COVARIANCE', 'CORRELATION'}
+        valid_complex_calculations = {'VARIANCE(annualized=True)', 'STDDEV(annualized=True)',  'HISTOGRAM(bins={N})',  'COVARIANCE(annualized=True)', 'AUTOCORRELATION(lag={N})', 'CORRELATION(method=KENDALL)', 'CORRELATION(method=SPEARMAN)'}
 
         for calc in calculations_list:
             calc = calc.strip()
@@ -44,13 +44,21 @@ class Command(BaseCommand):
 
         
 
-        url = (f'https://www.alphavantage.co/timeseries/analytics?'
-               f'SYMBOLS={symbols}&'
-               f'RANGE={range}&'
-               f'INTERVAL={interval}&'
-               f'OHLC={ohlc}&'
-               f'CALCULATIONS={calculations}&'
-               f'apikey={apikey}')
+        url_base = 'https://www.alphavantage.co/query?function=ANALYTICS_FIXED_WINDOW&'
+        params = {
+            'SYMBOLS': symbols,
+            'RANGE': range,
+            'INTERVAL': interval,
+            'CALCULATIONS': calculations}
+
+        if ohlc:
+            params['OHLC'] = ohlc
+
+
+        url = url_base + urllib.parse.urlencode(params)
+        url += f'&apikey={apikey}'
+        
+            
 
         try:
             r = requests.get(url)
