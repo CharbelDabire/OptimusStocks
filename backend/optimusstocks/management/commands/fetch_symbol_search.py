@@ -24,7 +24,10 @@ class Command(BaseCommand):
                     for match in data["bestMatches"]:
                         print(f"Symbol: {match['1. symbol']}, Name: {match['2. name']}")
                     else:
-                        self.stdout.write(self.style.WARNINGr('No matches found.'))
+                        self.stdout.write(self.style.WARNING('No matches found.'))
+                else:
+                    self.stdout.write(self.style.ERROR(f'Error fetching data'))     
+                
 
             except requests.exceptions.RequestException as e:
                 self.stderr.write(self.style.ERROR(f'Error fetching data'))
