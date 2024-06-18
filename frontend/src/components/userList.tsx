@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { fetchUsers } from "../../app/api/user";
-
+import { fetchUsers } from "../app/api/user";
 
 
 interface UserInterface {
