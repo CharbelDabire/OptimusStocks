@@ -1,3 +1,4 @@
+import urllib.parse 
 import requests
 from django.conf import settings
 from django.core.management.base import BaseCommand
@@ -9,10 +10,11 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument('symbols', type=str, help='A comma separated list of symbols')
-        parser.add_argument('range', type=str, help='Date range for the series (e.g., full, {N}day, {N}week, 2023-07-0)')
+        parser.add_argument('range', type=str, help='Date range for the series (e.g., full, {N}day, {N}week, 2023-07-19)')
         parser.add_argument('interval', type=str, help='Time interval between data points')
         parser.add_argument('window', type=str, help='Sliding window size')
         parser.add_argument('calculations', type=str, help='A comma separated list of the analytics metrics to calculate')
+        parser.add_argument('--ohlc', type=str, choices=['open', 'high', 'low', 'close'], default='close', help='The field (open, high, low, or close) on which the calculations will be performed')
 
 
     def handle(self, *args, **kwargs):
@@ -21,6 +23,7 @@ class Command(BaseCommand):
         interval = kwargs['interval']
         window = kwargs['window']
         calculations = kwargs['calculations']
+        ohlc = kwargs.get('ohlc')
         apikey = settings.ALPHA_VANTAGE_API_KEY
 
 
@@ -38,21 +41,21 @@ class Command(BaseCommand):
                 if any(calc.startswith(valid_complex_calculations for valid_complex in valid_complex_calculations)):
                     continue
             else:
-                self.stadout.write(self.style.ERROR(f'Invalid calculation: {calc}'))
+                self.stdout.write(self.style.ERROR(f'Invalid calculation: {calc}'))
 
-        url = (f'https://www.alphaPvantage.co/timeseries/running_analytics?'
-               f'SYMBOLS={symbols}&'
-               f'RANGE={range}&'
-               f'INTERVAL={interval}&'
-               f'WINDOW={window}&'
-               f'CALCULATIONS={calculations}&'
-               f'APIKEY={apikey}')
+        url = f"https://www.alphavantage.co/query?function=ANALYTICS_SLIDING_WINDOW&SYMBOLS={symbols}&RANGE={range}&INTERVAL={interval}&WINDOW_SIZE={window}&CALCULATIONS={','.join(calculations_list)}"
+
+    # If OHLC is provided, add it to the URL
+        if ohlc:
+            url += f"&OHLC={ohlc}"
+        url += f'&apikey={apikey}'
+        
+        
 
         try :
             r = requests.get(url)
             r.raise_for_status()
             data = r.json()
-
 
             self.stdout.write(self.style.SUCCESS(f'Successfully fetched data for {symbols})'))
             self.stdout.write(self.style.SUCCESS(str(data)))
@@ -61,3 +64,6 @@ class Command(BaseCommand):
             self.stdout.write(self.style.ERROR(f'HTTP error occurred: {http_err}'))
         except Exception as err:
             self.stdout.write(self.style.ERROR(f'An error occurred: {err}'))
+
+    
+        

@@ -72,8 +72,8 @@ class Command(BaseCommand):
             self.stdout.write(self.style.SUCCESS(str(data)))
 
         except requests.exceptions.HTTPError as http_err:
-            self.stdout.write(self.style.ERROR('An error occurred: {http_err}'))
+            self.stdout.write(self.style.ERROR(f'An error occurred: {http_err}'))
         except Exception as err:
-            self.stdout.write(self.style.ERROR('An error occurred: {http_err}'))
+            self.stdout.write(self.style.ERROR(f'An error occurred: {http_err}'))
 
             

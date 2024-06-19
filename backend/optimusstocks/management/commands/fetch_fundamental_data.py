@@ -1,3 +1,4 @@
+import urllib.parse
 import requests
 from django.conf import settings
 from django.core.management.base import BaseCommand
@@ -35,7 +36,7 @@ class Command(BaseCommand):
         params = {
             'function': function,
             'symbol': symbol,
-            'apikey': api_key}
+        }
 
         if function == 'LISTING_STATUS':
             if date:
@@ -43,12 +44,12 @@ class Command(BaseCommand):
             if state:
                 params['state'] = state 
 
-        api_key_param = params.pop('api_key')
 
 
 
-        url = base_url + '&'.join([f'{key}={value}' for key, value in params.items()])
-        url += f'&apikey={api_key_param}'
+        url = base_url + urllib.parse.urlencode(params)
+        url += f'&apikey={api_key}'
+        
 
         try:
             response = requests.get(url)

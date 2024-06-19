@@ -1,4 +1,5 @@
 import requests
+import urllib.parse
 from django.conf import settings
 from django.core.management.base import BaseCommand
 
@@ -45,7 +46,7 @@ class Command(BaseCommand):
         if maturity and function == 'TREASURY_YIELD':
             params['maturity'] = maturity
 
-        url = url_base + '&'.join([f'{k}={v}' for k, v in params.items()])
+        url = url_base + urllib.parse.urlencode(params)
         url += f'&apikey={api_key}'
 
         try:

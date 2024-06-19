@@ -1,3 +1,4 @@
+import urllib 
 import requests
 from django.conf import settings
 from django.core.management.base import BaseCommand
@@ -19,12 +20,12 @@ class Command(BaseCommand):
         # choices=[]
        
     def handle(self, *args, **kwargs):
-        apikey = settings.ALPHA_VANTAGE_API_KEY
         symbols = kwargs['symbols']
         range = kwargs['range']
         interval = kwargs['interval']
         calculations = kwargs['calculations']
         ohlc = kwargs['ohlc']
+        apikey = settings.ALPHA_VANTAGE_API_KEY
 
 
         calculations_list = calculations.split(',')

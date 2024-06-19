@@ -15,8 +15,11 @@ class Command(BaseCommand):
             api_key = settings.ALPHA_VANTAGE_API_KEY
             
             
-            url = f'httos://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol={symbol}&apikey={api_key}'
+            url = f'https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol={symbol}&apikey={api_key}'
+
+            
             response = requests.get(url)
+            response.raise_for_status()
             data = response.json()
             
             
