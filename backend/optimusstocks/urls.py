@@ -1,10 +1,10 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import StockViewSet, UserViewSet, PortfolioViewSet, QuestionViewSet, AnswerViewSet, PredictionViewSet, UnderstandingLevelViewSet
+from .views import StockViewSet, UsersViewSet, PortfolioViewSet, QuestionViewSet, AnswerViewSet, PredictionViewSet, UnderstandingLevelViewSet
 
 router = DefaultRouter()
 router.register(r'stocks', StockViewSet)
-router.register(r'users', UserViewSet)
+router.register(r'users', UsersViewSet)
 router.register(r'portfolios', PortfolioViewSet)
 router.register(r'questions', QuestionViewSet)
 router.register(r'answers', AnswerViewSet)

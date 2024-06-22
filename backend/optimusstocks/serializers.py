@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Stock, User, Portfolio, Question, Answer, Prediction, UnderstandingLevel 
+from .models import Stock, Users, Portfolio, Question, Answer, Prediction, UnderstandingLevel 
 
 class StockSerializer(serializers.ModelSerializer):
     class Meta:
@@ -7,14 +7,14 @@ class StockSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class UserSerializer(serializers.ModelSerializer):
+class UsersSerializer(serializers.ModelSerializer):
     class Meta:
-        model = User
+        model = Users
         fields = ['id', 'username', 'password']
 
 
 class PortfolioSerializer(serializers.ModelSerializer):
-    user = UserSerializer(read_only=True)
+    user = UsersSerializer(read_only=True)
     stocks = StockSerializer(many=True, read_only=True)
 
     class Meta:
@@ -23,7 +23,7 @@ class PortfolioSerializer(serializers.ModelSerializer):
 
 
 class QuestionSerializer(serializers.ModelSerializer):
-    user = UserSerializer(read_only=True)
+    user = UsersSerializer(read_only=True)
 
     class Meta:
         model = Question
@@ -48,7 +48,7 @@ class PredictionSerializer(serializers.ModelSerializer):
 
 
 class UnderstandingLevelSerializer(serializers.ModelSerializer):
-    user = UserSerializer(read_only=True)
+    user = UsersSerializer(read_only=True)
     
     class Meta:
         model = UnderstandingLevel

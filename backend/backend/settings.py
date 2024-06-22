@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     "rest_framework.authtoken",
     "optimusstocks",
     "debug_toolbar",
+    
 ]
 
 MIDDLEWARE = [

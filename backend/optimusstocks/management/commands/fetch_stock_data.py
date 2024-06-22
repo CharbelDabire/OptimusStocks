@@ -1,3 +1,4 @@
+import urllib.parse
 import requests
 from django.core.management.base import BaseCommand
 from optimusstocks.models import Stock
@@ -12,11 +13,10 @@ class Command(BaseCommand):
     FUNCTION_CHOICES = [
     'TIME_SERIES_INTRADAY', 
     'TIME_SERIES_DAILY', 
-    'TIME_SERIES_WEEKLY'
-    'TIME_SERIES_MONTHLY'
+    'TIME_SERIES_WEEKLY',
+    'TIME_SERIES_MONTHLY',
     'TIME_SERIES_WEEKLY_ADJUSTED', 
-    'TIME_SERIES_MONTHLY_ADJUSTED',
-    
+    'TIME_SERIES_MONTHLY_ADJUSTED'
     ]
 
     def add_arguments(self, parser):
@@ -40,8 +40,7 @@ class Command(BaseCommand):
         base_url = 'https://www.alphavantage.co/query?'
         params = {
             'function': function,
-            'symbol': symbol,
-            'apikey': api_key
+            'symbol': symbol
         }
         
         if function == 'TIME_SERIES_INTRADAY':
@@ -56,20 +55,20 @@ class Command(BaseCommand):
                 params['outputsize'] = output_size
         
             
-        url = base_url + '&'.join([f'{key}={value}' for key, value in params.items()])
+        url = base_url + urllib.parse.urlencode(params)
+        url += f'&apikey={api_key}'
 
         # Add a print statement to print the URL
         print(f"Requesting data from URL: {url}")
         
         response = requests.get(url)
-        print(f"Response status code: {response.status_code}")
-        print(f"Response text: {response.text}")
+        response.raise_for_status()
         data = response.json()
         
         if function == 'TIME_SERIES_INTRADAY':
             time_series_key = f'Time Series ({interval})'
-        elif function == 'TIME_SERIES_DAILY_ADJUSTED':
-            time_series_key = 'Daily Adjusted Time Series'
+        elif function == 'TIME_SERIES_DAILY':
+            time_series_key = 'Daily Time Series'
         elif function == 'TIME_SERIES_WEEKLY_ADJUSTED':
             time_series_key = 'Weekly Adjusted Time Series'
         elif function == 'TIME_SERIES_MONTHLY_ADJUSTED':
