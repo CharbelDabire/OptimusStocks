@@ -5,9 +5,6 @@ from rest_framework.decorators import action
 from .models import Stock, Users, Portfolio, Question, Answer, Prediction, UnderstandingLevel
 from .serializers import StockSerializer, UsersSerializer, PortfolioSerializer, QuestionSerializer, AnswerSerializer, PredictionSerializer, UnderstandingLevelSerializer
 from .services.stock_service import StockService
-from .services.alpha_vantage_service import AlphaVantageService
-from .services.yahoo_fin_service import YahooFinService
-from .services.yfinance_service import YFinanceService
 
 # Replace 'YOUR_ALPHA_VANTAGE_API_KEY' with your actual Alpha Vantage API key
 ALPHA_VANTAGE_API_KEY = settings.ALPHA_VANTAGE_API_KEY
