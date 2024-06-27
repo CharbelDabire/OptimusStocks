@@ -20,6 +20,7 @@ class StockViewSet(viewsets.ModelViewSet):
     @action(detail=True, methods=['get'])
     def stock_info(self, request, pk=None):
         ticker = self.get_object().ticker_symbol  # Assuming your Stock model has a ticker_symbol field
+
         
         stock_data = {
             # Yahoo Finance
@@ -69,23 +70,23 @@ class StockViewSet(viewsets.ModelViewSet):
             'stock_news': self.stock_service.get_stock_news(ticker),
 
             # Alpha Vantage
-            'alpha_vantage_intraday': self.stock_service.get_alpha_vantage_intraday(ticker),
-            'alpha_vantage_daily': self.stock_service.get_alpha_vantage_daily(ticker),
-            'alpha_vantage_daily_adjusted': self.stock_service.get_alpha_vantage_daily_adjusted(ticker),
-            'alpha_vantage_weekly': self.stock_service.get_alpha_vantage_weekly(ticker),
-            'alpha_vantage_weekly_adjusted': self.stock_service.get_alpha_vantage_weekly_adjusted(ticker),
-            'alpha_vantage_monthly': self.stock_service.get_alpha_vantage_monthly(ticker),
-            'alpha_vantage_monthly_adjusted': self.stock_service.get_alpha_vantage_monthly_adjusted(ticker),
-            'alpha_vantage_company_overview': self.stock_service.get_alpha_vantage_company_overview(ticker),
-            'alpha_vantage_income_statement': self.stock_service.get_alpha_vantage_income_statement(ticker),
-            'alpha_vantage_balance_sheet': self.stock_service.get_alpha_vantage_balance_sheet(ticker),
-            'alpha_vantage_cash_flow': self.stock_service.get_alpha_vantage_cash_flow(ticker),
-            'alpha_vantage_sma': self.stock_service.get_alpha_vantage_sma(ticker),
-            'alpha_vantage_ema': self.stock_service.get_alpha_vantage_ema(ticker),
-            'alpha_vantage_macd': self.stock_service.get_alpha_vantage_macd(ticker),
-            'alpha_vantage_rsi': self.stock_service.get_alpha_vantage_rsi(ticker),
-            'alpha_vantage_sector': self.stock_service.get_alpha_vantage_sector(),
-            'alpha_vantage_crypto_daily': self.stock_service.get_alpha_vantage_crypto_daily(ticker),
+            'alpha_vantage_intraday': self.stock_service.get_intraday(ticker),
+            'alpha_vantage_daily': self.stock_service.get_daily(ticker),
+            'alpha_vantage_daily_adjusted': self.stock_service.get_daily_adjusted(ticker),
+            'alpha_vantage_weekly': self.stock_service.get_weekly(ticker),
+            'alpha_vantage_weekly_adjusted': self.stock_service.get_weekly_adjusted(ticker),
+            'alpha_vantage_monthly': self.stock_service.get_monthly(ticker),
+            'alpha_vantage_monthly_adjusted': self.stock_service.get_monthly_adjusted(ticker),
+            'alpha_vantage_company_overview': self.stock_service.get_company_overview(ticker),
+            'alpha_vantage_income_statement': self.stock_service.get_income_statement(ticker),
+            'alpha_vantage_balance_sheet': self.stock_service.get_balance_sheet(ticker),
+            'alpha_vantage_cash_flow': self.stock_service.get_cash_flow(ticker),
+            'alpha_vantage_sma': self.stock_service.get_sma(ticker),
+            'alpha_vantage_ema': self.stock_service.get_ema(ticker),
+            'alpha_vantage_macd': self.stock_service.get_macd(ticker),
+            'alpha_vantage_rsi': self.stock_service.get_rsi(ticker),
+            'alpha_vantage_sector': self.stock_service.get_sector(),
+            'alpha_vantage_crypto_daily': self.stock_service.get_crypto_daily(ticker),
 
             # YFinance
             'yfinance_info': self.stock_service.get_yfinance_info(ticker),
